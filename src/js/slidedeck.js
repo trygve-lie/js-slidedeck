@@ -1,88 +1,108 @@
-var slidedeck = {
-
-    decks : [],
-    index : 0,
-
-
-    // Init the slidedeck
-
-    init : function() {
-        var deck = document.getElementById('deck');
-        slidedeck.decks = deck.getElementsByTagName('div');
-
-        // Handle hash url
-        var start = 0;
-        if(window.location.hash){
-            start = window.location.hash.substring(1);
-        }
-        slidedeck.index = start;
+var SlideDeck = (function() {
 
 
         // Set CSS classes on the decks
-        for(var i = 0, l = slidedeck.decks.length; i < l; i++) {
 
-            if(i < start){
-                slidedeck.decks[i].className = 'left';
+        var setStyles = function(decks, start, styleNames) {
+   
+            for(var i = 0, l = decks.length; i < l; i++) {
+
+                if(i < start){
+                    decks[i].className = styleNames.past;
+                }
+
+                if(i === start){
+                    decks[i].className = styleNames.current;
+                }
+
+                if(i > start){
+                    decks[i].className = styleNames.future;
+                }
+
             }
 
-            if(i === start){
-                slidedeck.decks[i].className = 'center';
-            }
-
-            if(i > start){
-                slidedeck.decks[i].className = 'right';
-            }
-
-        }
-
-        // Set eventhandlers
-        document.onkeydown = function(e) {
-            slidedeck.keyHandler(e);
         };
-    },
 
 
-    // Move deck to left
 
-    moveLeft : function() {
+        // Find first level children in the slidedeck
+        // TODO: Make this part of the process of setting styles!!!!
+    
+        var getFirstLevelChildren = function(el){
 
-        if(slidedeck.index < (slidedeck.decks.length - 1)){
-            slidedeck.decks[slidedeck.index].className = 'left';
-            slidedeck.index++;
-            slidedeck.decks[slidedeck.index].className = 'center';
-        }
+            // TODO: Make use of querySelectorAll - Note: make it generic!!!
 
-        // Update hash in URL
-        window.location.hash = slidedeck.index;
-    },
+            var elements = [];
 
+            var walker = function(currentEl) {
+                if(currentEl.nodeType === 1){
+                    elements.push(currentEl);
+                }
+                var nextEl = currentEl.nextSibling;
+                if (nextEl !== null) {
+                    walker(nextEl);
+                }
+            };
 
-    // Move deck to right
+            walker(el.firstChild);
 
-    moveRight : function() {
-
-        if(slidedeck.index > 0){
-            slidedeck.decks[slidedeck.index].className = 'right';
-            slidedeck.index--;
-            slidedeck.decks[slidedeck.index].className = 'center';
-        }
-
-        // Update hash in URL
-        window.location.hash = slidedeck.index;
-    },
+            return elements;
+        };
 
 
-    // Navigate trough arrow keys
 
-    keyHandler : function(ev) {
-        switch (ev.keyCode) {
-          case 37: // Left arrow
-              slidedeck.move('left');
-              break;
-          case 39: // Right arrow
-              slidedeck.move('right');
-              break;
-        }
+        // The Deck object
+
+        var Deck = function(start, domElements, styleNames) {
+
+            this.styles   = styleNames;
+            this.decks    = getFirstLevelChildren(domElements.deck);
+            this.index    = (start - 1);
+
+
+            setStyles(this.decks, this.index, this.styles);
+
+        };
+
+
+
+        Deck.prototype = {
+
+            next : function(callback) {
+
+                if(this.index < (this.decks.length - 1)){
+
+                    if(callback) {
+                        callback();
+                    }
+
+                    this.decks[this.index].className = this.styles.past;
+                    this.index++;
+                    this.decks[this.index].className = this.styles.current;
+                }
+
+            },
+
+            previous : function(callback) {
+
+                if(this.index > 0){
+
+                    if(callback) {
+                        callback();
+                    }
+
+                    this.decks[this.index].className = this.styles.future;
+                    this.index--;
+                    this.decks[this.index].className = this.styles.current;
+                }
+                
+            }
+            
+        };
+
+        var d = Deck;
+        return d;
+
     }
 
-};
+)();

@@ -1,19 +1,21 @@
 /* The deck box - defines the area which the decks slide inside */
-#deck {
+#slidedeck {
     position: relative;         /* Must be absolute or relative */
+    overflow: hidden;           /* Makes the box into a "frame" */
+
     top: 0;
     left: 0;
     width: 600px;
     height: 400px;
-    overflow: hidden;           /* Makes the box into a "frame" */
     border: 5px solid #aabfa7;
     background: #aabfa7;
 }
 
 /* Each deck inside the box */
-#deck div {
+#slidedeck div {
     position: absolute;
     top: 0;
+    left: -605px;
     width: 600px;
     height: 400px;
     display: block;
@@ -30,9 +32,10 @@
     -moz-transition-duration: 0.5s;
 }
 
+
 /* Deck placed to the left "outside" of the deck box - Not visible */
-.left {
-    left: -605px;
+#slidedeck .past {
+    left: 605px;
 
     transition-timing-function: ease-in;
     -o-transition-timing-function: ease-in;
@@ -41,7 +44,7 @@
 }
 
 /* Deck placed in the deck box - Visible */
-.center {
+#slidedeck .current {
     left: 0;
 
     transition-timing-function: ease-in;
@@ -51,8 +54,8 @@
 }
 
 /* Deck placed to the right "outside" of the deck box - Not visible */
-.right {
-    left: 605px;
+#slidedeck .future {
+    left: -605px;
 
     transition-timing-function: ease-in;
     -o-transition-timing-function: ease-in;
