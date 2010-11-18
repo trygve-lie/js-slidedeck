@@ -1,20 +1,20 @@
-var SlideDeck = (function() {
+var SlideDeck = (function () {
 
 
 
         // Set CSS on a deck
 
-        var setStyle = function(element, index, start, styles) {
+        var setStyle = function (element, index, start, styles) {
 
-            if(index < start){
+            if (index < start) {
                 element.className = styles.past;
             }
 
-            if(index === start){
+            if (index === start) {
                 element.className = styles.current;
             }
 
-            if(index > start){
+            if (index > start) {
                 element.className = styles.future;
             }
 
@@ -24,14 +24,14 @@ var SlideDeck = (function() {
 
         // Find all first level children in the slidedeck, push them in a stack and apply css styles
     
-        var readFirstLevelChildren = function(element, start, styles){
+        var readFirstLevelChildren = function (element, start, styles) {
 
             var children = [];
 
             // TODO: A better recursive function: https://developer.mozilla.org/en/JavaScript/Reference/Functions_and_function_scope/arguments/callee
 
-            var walker = function(currentElement) {
-                if(currentElement.nodeType === 1){
+            var walker = function (currentElement) {
+                if (currentElement.nodeType === 1) {
                     children.push(currentElement);
                     setStyle(currentElement, children.length, start, styles);
                 }
@@ -50,7 +50,7 @@ var SlideDeck = (function() {
 
         // The Deck object
 
-        var Deck = function(start, elements, styles) {
+        var Deck = function (start, elements, styles) {
 
             this.styles   = styles;
             this.decks    = readFirstLevelChildren(elements.deck, start, styles);
@@ -62,31 +62,31 @@ var SlideDeck = (function() {
 
         Deck.prototype = {
 
-            next : function(callback) {
+            next : function (callback) {
 
-                if(this.index < (this.decks.length - 1)){
+                if (this.index < (this.decks.length - 1)) {
 
                     if (callback) {
                         callback(this.index, this.decks.length);
                     }
 
                     this.decks[this.index].className = this.styles.past;
-                    this.index++;
+                    this.index = this.index + 1;
                     this.decks[this.index].className = this.styles.current;
                 }
 
             },
 
-            previous : function(callback) {
+            previous : function (callback) {
 
-                if(this.index > 0){
+                if (this.index > 0) {
 
                     if (callback) {
                         callback(this.index, this.decks.length);
                     }
 
                     this.decks[this.index].className = this.styles.future;
-                    this.index--;
+                    this.index = this.index - 1;
                     this.decks[this.index].className = this.styles.current;
                 }
                 
@@ -101,9 +101,9 @@ var SlideDeck = (function() {
             
         };
 
-        var d = Deck;
-        return d;
 
-    }
+        return Deck;
 
-)();
+    }()
+
+);
