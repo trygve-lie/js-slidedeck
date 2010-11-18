@@ -1,66 +1,60 @@
 var SlideDeck = (function() {
 
 
-        // Set CSS classes on the decks
 
-        var setStyles = function(decks, start, styleNames) {
-   
-            for(var i = 0, l = decks.length; i < l; i++) {
+        // Set CSS on a deck
 
-                if(i < start){
-                    decks[i].className = styleNames.past;
-                }
+        var setStyle = function(element, index, start, styles) {
 
-                if(i === start){
-                    decks[i].className = styleNames.current;
-                }
+            if(index < start){
+                element.className = styles.past;
+            }
 
-                if(i > start){
-                    decks[i].className = styleNames.future;
-                }
+            if(index === start){
+                element.className = styles.current;
+            }
 
+            if(index > start){
+                element.className = styles.future;
             }
 
         };
 
 
 
-        // Find first level children in the slidedeck
-        // TODO: Make this part of the process of setting styles!!!!
+        // Find all first level children in the slidedeck, push them in a stack and apply css styles
     
-        var getFirstLevelChildren = function(el){
+        var readFirstLevelChildren = function(element, start, styles){
 
-            // TODO: Make use of querySelectorAll - Note: make it generic!!!
+            var children = [];
 
-            var elements = [];
+            // TODO: A better recursive function: https://developer.mozilla.org/en/JavaScript/Reference/Functions_and_function_scope/arguments/callee
 
-            var walker = function(currentEl) {
-                if(currentEl.nodeType === 1){
-                    elements.push(currentEl);
+            var walker = function(currentElement) {
+                if(currentElement.nodeType === 1){
+                    children.push(currentElement);
+                    setStyle(currentElement, children.length, start, styles);
                 }
-                var nextEl = currentEl.nextSibling;
-                if (nextEl !== null) {
-                    walker(nextEl);
+                var nextElement = currentElement.nextSibling;
+                if (nextElement !== null) {
+                    walker(nextElement);
                 }
             };
 
-            walker(el.firstChild);
+            walker(element.firstChild);
 
-            return elements;
+            return children;
         };
 
 
 
         // The Deck object
 
-        var Deck = function(start, domElements, styleNames) {
+        var Deck = function(start, elements, styles) {
 
-            this.styles   = styleNames;
-            this.decks    = getFirstLevelChildren(domElements.deck);
+            this.styles   = styles;
+            this.decks    = readFirstLevelChildren(elements.deck, start, styles);
             this.index    = (start - 1);
-
-
-            setStyles(this.decks, this.index, this.styles);
 
         };
 
@@ -72,8 +66,8 @@ var SlideDeck = (function() {
 
                 if(this.index < (this.decks.length - 1)){
 
-                    if(callback) {
-                        callback();
+                    if (callback) {
+                        callback(this.index, this.decks.length);
                     }
 
                     this.decks[this.index].className = this.styles.past;
@@ -87,8 +81,8 @@ var SlideDeck = (function() {
 
                 if(this.index > 0){
 
-                    if(callback) {
-                        callback();
+                    if (callback) {
+                        callback(this.index, this.decks.length);
                     }
 
                     this.decks[this.index].className = this.styles.future;
@@ -96,6 +90,13 @@ var SlideDeck = (function() {
                     this.decks[this.index].className = this.styles.current;
                 }
                 
+            },
+
+            append : function(element) {
+
+                this.decks.push(element);
+                setStyle(element, (this.decks.length - 1), this.index, this.styles);
+
             }
             
         };
