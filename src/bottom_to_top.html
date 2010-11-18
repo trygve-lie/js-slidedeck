@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Slide from left to right</title>
+    <script src="js/slidedeck.js"> </script>
+    <link rel="stylesheet" type="text/css" media="screen,projection" href="css/bottom_to_top.css">
+    <style>
+        /* Presentation styles */
+        #slidedeck div .content {
+            
+            top: 0;
+            left: 0;
+            font-size: 200px;
+            text-align: center;
+            padding-top: 80px;
+            height: 320px;
+        }
+
+        .controls{
+            background: #aabfa7;
+            width: 600px;
+            padding: 5px;
+        }
+
+        .controls .bRight{
+            float: right;
+        }
+    </style>
+    <script>
+        var m;
+        var load = function() {
+
+            var elements = {
+                deck :     document.getElementById('slidedeck'),
+                next :     document.getElementById('next'),
+                previous : document.getElementById('previous')
+            };
+            
+            m = new SlideDeck(elements, 1);
+        }
+    </script>
+</head>
+<body onload="load()">
+
+    <div id="slidedeck">
+        <div>
+            <div class="content">I</div>
+        </div>
+        <div>
+            <div class="content">II</div>
+        </div>
+        <div>
+            <div class="content">III</div>
+        </div>
+        <div>
+            <div class="content">IV</div>
+        </div>
+        <div>
+            <div class="content">V</div>
+        </div>
+        <div>
+            <div class="content">VI</div>
+        </div>
+        <div>
+            <div class="content">VII</div>
+        </div>
+        <div>
+            <div class="content">VIII</div>
+        </div>
+        <div>
+            <div class="content">IX</div>
+        </div>
+        <div>
+            <div class="content">X</div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button id="previous" class="bLeft" onclick="m.previous();">Previous</button>
+        <button id="next" class="bRight" onclick="m.next();">Next</button>
+    </div>
+
+</body>
+</html>

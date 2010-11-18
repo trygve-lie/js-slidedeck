@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Slide from right to left</title>
+    <script src="js/slidedeck.js"> </script>
+    <link rel="stylesheet" type="text/css" media="screen,projection" href="css/right_to_left.css">
+    <style>
+        /* Presentation styles */
+        #slidedeck div .content {
+            
+            top: 0;
+            left: 0;
+            font-size: 200px;
+            text-align: center;
+            padding-top: 80px;
+            height: 320px;
+        }
+
+        .controls{
+            background: #aabfa7;
+            width: 600px;
+            padding: 5px;
+        }
+
+        .controls .bRight{
+            float: right;
+        }
+    </style>
+    <script>
+        var m;
+        var load = function() {
+
+            var elements = {
+                deck :     document.getElementById('slidedeck'),
+                next :     document.getElementById('next'),
+                previous : document.getElementById('previous')
+            };
+
+            var styles = {
+                past     : 'past',
+                future   : 'future',
+                current  : 'current'
+            };
+
+            m = new SlideDeck(elements, 1);
+        }
+    </script>
+</head>
+<body onload="load()">
+
+    <div id="slidedeck">
+        <div>
+            <div class="content">I</div>
+        </div>
+        <div>
+            <div class="content">II</div>
+        </div>
+        <div>
+            <div class="content">III</div>
+        </div>
+        <div>
+            <div class="content">IV</div>
+        </div>
+        <div>
+            <div class="content">V</div>
+        </div>
+        <div>
+            <div class="content">VI</div>
+        </div>
+        <div>
+            <div class="content">VII</div>
+        </div>
+        <div>
+            <div class="content">VIII</div>
+        </div>
+        <div>
+            <div class="content">IX</div>
+        </div>
+        <div>
+            <div class="content">X</div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button id="next" class="bLeft" onclick="m.next();">Next</button>
+        <button id="previous" class="bRight" onclick="m.previous();">Previous</button>
+    </div>
+
+</body>
+</html>

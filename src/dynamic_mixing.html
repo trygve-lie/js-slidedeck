@@ -35,24 +35,6 @@
     <script>
         var m;
 
-        var dynamicStart = function() {
-
-            var s = document.getElementById('slidedeck');
-
-            var el1 = document.createElement('div');
-            el1.innerHTML = '<div class=content>' + Math.floor(Math.random()*1000) + '</div>';
-
-            var el2 = document.createElement('div');
-            el2.innerHTML = '<div class=content>' + Math.floor(Math.random()*1000) + '</div>';
-
-            s.appendChild(el1);
-            s.appendChild(el2);
-
-            m.append(el1);
-            m.append(el2);
-
-        };
-
         var dynamicNext = function(closeToNext) {
 
             if(closeToNext){
@@ -82,13 +64,19 @@
             
             m = new SlideDeck(els, 1);
 
-            dynamicStart();
         }
     </script>
 </head>
 <body onload="load()">
 
-    <div id="slidedeck"> </div>
+    <div id="slidedeck">
+        <div>
+            <div class="content">I</div>
+        </div>
+        <div>
+            <div class="content">II</div>
+        </div>
+    </div>
 
     <div class="controls">
         <button id="previous" class="bLeft" onclick="m.previous();">Previous</button>
