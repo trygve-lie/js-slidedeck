@@ -31,8 +31,6 @@
         var m;
         var load = function() {
 
-            // TODO: next and previous can be more than one button! Check for array (getElementByClassName etc..)
-
             var elements = {
                 deck :     document.getElementById('slidedeck'),
                 next :     document.getElementById('next'),
@@ -44,8 +42,8 @@
                 future   : 'future',
                 current  : 'current'
             };
-            
-            m = new SlideDeck(1, elements, styles, function(k){alert('haha')});
+
+            m = new SlideDeck(elements, 1);
         }
     </script>
 </head>

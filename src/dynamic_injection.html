@@ -33,14 +33,13 @@
         var dynamicStart = function() {
 
             // TODO: Fix so this one does not append after a couple of "previous" clicks have been made
-            var now = new Date();
             var s = document.getElementById('slidedeck');
 
             var el1 = document.createElement('div');
-            el1.innerHTML = '<div class=content>' + now.getMilliseconds() * 2 + '</div>';
+            el1.innerHTML = '<div class=content>1</div>';
 
             var el2 = document.createElement('div');
-            el2.innerHTML = '<div class=content>' + now.getMilliseconds() * 4 + '</div>';
+            el2.innerHTML = '<div class=content>2</div>';
 
             s.appendChild(el1);
             s.appendChild(el2);
@@ -50,19 +49,21 @@
 
         };
 
-        var dynamicNext = function(index, length) {
+        var dynamicNext = function(closeToNext) {
 
-            // TODO: Fix so this one does not append after a couple of "previous" clicks have been made
-            // TODO: Let this function 
-            var now = new Date();
-            var s = document.getElementById('slidedeck');
+            if(closeToNext){
 
-            var el1 = document.createElement('div');
-            el1.innerHTML = '<div class=content>' + now.getMilliseconds() * 2 + '</div>';
+                var now = new Date();
+                var s = document.getElementById('slidedeck');
 
-            s.appendChild(el1);
+                var el1 = document.createElement('div');
+                el1.innerHTML = '<div class=content>' + Math.floor(Math.random()*11) + '</div>';
 
-            m.append(el1);
+                s.appendChild(el1);
+
+                m.append(el1);
+
+            }
 
         };
 
@@ -74,13 +75,8 @@
                 previous : document.getElementById('previous')
             };
 
-            var styles = {
-                past     : 'past',
-                future   : 'future',
-                current  : 'current'
-            };
             
-            m = new SlideDeck(1, els, styles);
+            m = new SlideDeck(els, 1);
 
             dynamicStart();
         }
@@ -88,9 +84,7 @@
 </head>
 <body onload="load()">
 
-    <div id="slidedeck">
-
-    </div>
+    <div id="slidedeck"> </div>
 
     <div class="controls">
         <button id="previous" class="bLeft" onclick="m.previous();">Previous</button>
