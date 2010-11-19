@@ -67,7 +67,9 @@ var SlideDeck = (function () {
                     obj.decks[obj.index].className = obj.styles.current;
 
                     if (callback) {
-                        callback(obj.index === (obj.decks.length - 1));             // Calculate "almost at the end"
+
+                        // Calculate "almost at the end" and return true if so
+                        callback(obj.index === (obj.decks.length - 1));
                     }
 
                 }
@@ -88,7 +90,9 @@ var SlideDeck = (function () {
                     obj.decks[obj.index].className = obj.styles.current;
 
                     if (callback) {
-                        callback((obj.index - 1) === 0);                            // Calculate "almost at the beginning"
+
+                        // Calculate "almost at the beginning" and return true if so
+                        callback((obj.index - 1) === 0);
                     }
 
                 }
